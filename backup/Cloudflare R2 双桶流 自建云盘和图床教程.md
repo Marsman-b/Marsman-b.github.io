@@ -11,7 +11,11 @@
 
 工欲善其事，必先利其器。请先下载并安装以下工具：
 
-[[🌐 注册 Cloudflare 账号](https://dash.cloudflare.com/)](https://dash.cloudflare.com/)[[📥 下载 Rclone (Windows 64Bit)](https://rclone.org/downloads/)](https://rclone.org/downloads/)[[📥 下载 WinFSP (挂载必须)](https://github.com/winfsp/winfsp/releases)](https://github.com/winfsp/winfsp/releases)[[📥 下载 PicGo (图床工具)](https://github.com/Molunerfinn/PicGo/releases)](https://github.com/Molunerfinn/PicGo/releases)
+[[🌐 注册 Cloudflare 账号](https://dash.cloudflare.com/)](https://dash.cloudflare.com/)
+[[📥 下载 Rclone (Windows 64Bit)](https://rclone.org/downloads/)](https://rclone.org/downloads/)
+[[📥 下载 WinFSP (挂载必须)](https://github.com/winfsp/winfsp/releases)](https://github.com/winfsp/winfsp/releases)
+[[📥 下载 PicGo (图床工具)](https://github.com/Molunerfinn/PicGo/releases)](https://github.com/Molunerfinn/PicGo/releases)
+
 
 \* Rclone 下载后请解压到 `C:\rclone` 目录下。
 
