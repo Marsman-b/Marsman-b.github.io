@@ -222,9 +222,9 @@ pause复制</pre></div>
 <div class="comments" id="comments"></div>
 
 </div>
-    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://Marsman-b.github.io">Zhongweizi 的博客</a></div>
+    <div id="footer"><div id="footer1"><span id="copyrightYear"></span> <a href="https://Marsman-b.github.io">Zhongweizi 的博客</a></div>
 <div id="footer2">
-    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+    <span id="runday"></span><span>I have always believed</span>
 </div>
 
 <script>
@@ -280,6 +280,7 @@ document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
 function openComments(){
     cm=document.getElementById("comments");
     cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
     cmButton.innerHTML="loading";
     span=document.createElement("span");
     span.setAttribute("class","AnimatedEllipsis");
