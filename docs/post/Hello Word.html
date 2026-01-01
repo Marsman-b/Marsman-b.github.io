@@ -29,56 +29,183 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </style>
 
 <style>
-.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+/* ===== 原有样式 ===== */
+.postTitle{margin:auto 0;font-size:40px;font-weight:bold;}
 .title-right{display:flex;margin:auto 0 0 auto;}
-.title-right .circle{padding: 14px 16px;margin-right:8px;}
-#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+.title-right .circle{padding:14px 16px;margin-right:8px;}
+#postBody{border-bottom:1px solid var(--color-border-default);padding-bottom:36px;}
 #postBody hr{height:2px;}
 #cmButton{height:48px;margin-top:48px;}
 #comments{margin-top:64px;}
 .g-emoji{font-size:24px;}
-@media (max-width: 600px) {
-    body {padding: 8px;}
+
+@media (max-width:600px){
+    body{padding:8px;}
     .postTitle{font-size:24px;}
 }
 
-</style>
-/* 左侧目录样式 */ .post-container { display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; } .toc-sidebar { position: sticky; top: 20px; width: 250px; height: fit-content; background: var(--color-canvas-subtle); border: 1px solid var(--borderColor-muted, var(--color-border-muted)); border-radius: 8px; padding: 16px; margin-left: -270px; transition: margin-left 0.3s ease; } .toc-sidebar.visible { margin-left: 0; } .post-main { flex: 1; min-width: 0; } .toc-header { font-weight: bold; margin-bottom: 12px; color: var(--color-fg-default); border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted)); padding-bottom: 8px; } .toc-list { list-style: none; padding: 0; margin: 0; } .toc-item { margin: 4px 0; } .toc-link { display: block; padding: 4px 8px; text-decoration: none; color: var(--color-fg-muted); font-size: 14px; border-radius: 4px; transition: all 0.2s ease; } .toc-link:hover { background: var(--color-neutral-muted); color: var(--color-fg-default); text-decoration: none; } .toc-link.active { background: var(--color-accent-subtle); color: var(--color-accent-emphasis); font-weight: 500; } .toc-h1 { font-weight: 600; } .toc-h2 { padding-left: 16px; } .toc-h3 { padding-left: 32px; } .toc-h4 { padding-left: 48px; } .toc-h5 { padding-left: 64px; } .toc-h6 { padding-left: 80px; } .toc-toggle { position: fixed; top: 100px; left: 20px; z-index: 1000; background: var(--color-btn-bg); border: 1px solid var(--borderColor-muted, var(--color-border-muted)); border-radius: 6px; padding: 8px; cursor: pointer; color: var(--color-fg-default); display: none; } @media (max-width: 1000px) { .toc-sidebar { position: fixed; top: 0; left: 0; width: 280px; height: 100vh; margin-left: -280px; z-index: 999; background: var(--color-canvas-default); border-right: 1px solid var(--borderColor-muted, var(--color-border-muted)); border-radius: 0; box-shadow: 2px 0 8px rgba(0,0,0,0.1); overflow-y: auto; } .toc-sidebar.visible { margin-left: 0; } .toc-toggle { display: block; } .post-container { display: block; } }
 
+
+/* ===================== */
+/* ===== 目录布局 ===== */
+/* ===================== */
+
+.post-container{
+    display:flex;
+    gap:20px;
+    max-width:1200px;
+    margin:0 auto;
+}
+
+.post-main{
+    flex:1;
+    min-width:0;
+}
+
+/* 左侧目录 */
+.toc-sidebar{
+    position:sticky;
+    top:20px;
+    width:250px;
+    height:fit-content;
+    background:var(--color-canvas-subtle);
+    border:1px solid var(--borderColor-muted, var(--color-border-muted));
+    border-radius:8px;
+    padding:16px;
+    transition:margin-left .3s ease;
+}
+
+.toc-header{
+    font-weight:bold;
+    margin-bottom:12px;
+    border-bottom:1px solid var(--borderColor-muted, var(--color-border-muted));
+    padding-bottom:8px;
+}
+
+.toc-list{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.toc-item{margin:4px 0;}
+
+.toc-link{
+    display:block;
+    padding:4px 8px;
+    text-decoration:none;
+    color:var(--color-fg-muted);
+    font-size:14px;
+    border-radius:4px;
+    transition:.2s;
+}
+
+.toc-link:hover{
+    background:var(--color-neutral-muted);
+    color:var(--color-fg-default);
+}
+
+.toc-link.active{
+    background:var(--color-accent-subtle);
+    color:var(--color-accent-emphasis);
+    font-weight:500;
+}
+
+.toc-h1{font-weight:600;}
+.toc-h2{padding-left:16px;}
+.toc-h3{padding-left:32px;}
+.toc-h4{padding-left:48px;}
+.toc-h5{padding-left:64px;}
+.toc-h6{padding-left:80px;}
+
+/* 移动端抽屉 */
+.toc-toggle{
+    position:fixed;
+    top:100px;
+    left:20px;
+    z-index:1000;
+    background:var(--color-btn-bg);
+    border:1px solid var(--borderColor-muted, var(--color-border-muted));
+    border-radius:6px;
+    padding:8px 10px;
+    cursor:pointer;
+    display:none;
+}
+
+@media (max-width:1000px){
+    .post-container{display:block;}
+    .toc-sidebar{
+        position:fixed;
+        top:0;
+        left:0;
+        width:280px;
+        height:100vh;
+        margin-left:-280px;
+        z-index:999;
+        background:var(--color-canvas-default);
+        border-right:1px solid var(--borderColor-muted, var(--color-border-muted));
+        border-radius:0;
+        box-shadow:2px 0 8px rgba(0,0,0,.1);
+        overflow-y:auto;
+    }
+    .toc-sidebar.visible{margin-left:0;}
+    .toc-toggle{display:block;}
+}
+
+</style>
+
+/* 左侧目录样式 */ .post-container { display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; } .toc-sidebar { position: sticky; top: 20px; width: 250px; height: fit-content; background: var(--color-canvas-subtle); border: 1px solid var(--borderColor-muted, var(--color-border-muted)); border-radius: 8px; padding: 16px; margin-left: -270px; transition: margin-left 0.3s ease; } .toc-sidebar.visible { margin-left: 0; } .post-main { flex: 1; min-width: 0; } .toc-header { font-weight: bold; margin-bottom: 12px; color: var(--color-fg-default); border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted)); padding-bottom: 8px; } .toc-list { list-style: none; padding: 0; margin: 0; } .toc-item { margin: 4px 0; } .toc-link { display: block; padding: 4px 8px; text-decoration: none; color: var(--color-fg-muted); font-size: 14px; border-radius: 4px; transition: all 0.2s ease; } .toc-link:hover { background: var(--color-neutral-muted); color: var(--color-fg-default); text-decoration: none; } .toc-link.active { background: var(--color-accent-subtle); color: var(--color-accent-emphasis); font-weight: 500; } .toc-h1 { font-weight: 600; } .toc-h2 { padding-left: 16px; } .toc-h3 { padding-left: 32px; } .toc-h4 { padding-left: 48px; } .toc-h5 { padding-left: 64px; } .toc-h6 { padding-left: 80px; } .toc-toggle { position: fixed; top: 100px; left: 20px; z-index: 1000; background: var(--color-btn-bg); border: 1px solid var(--borderColor-muted, var(--color-border-muted)); border-radius: 6px; padding: 8px; cursor: pointer; color: var(--color-fg-default); display: none; } @media (max-width: 1000px) { .toc-sidebar { position: fixed; top: 0; left: 0; width: 280px; height: 100vh; margin-left: -280px; z-index: 999; background: var(--color-canvas-default); border-right: 1px solid var(--borderColor-muted, var(--color-border-muted)); border-radius: 0; box-shadow: 2px 0 8px rgba(0,0,0,0.1); overflow-y: auto; } .toc-sidebar.visible { margin-left: 0; } .toc-toggle { display: block; } .post-container { display: block; } }
 
 
 <body>
     <div id="header">
 <h1 class="postTitle">Hello Word</h1>
 <div class="title-right">
-    <a href="https://Marsman-b.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
-        <svg class="octicon" width="16" height="16">
-            <path id="pathHome" fill-rule="evenodd"></path>
-        </svg>
+    <a href="https://Marsman-b.github.io" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16"><path id="pathHome"></path></svg>
     </a>
+
     
     <a href="https://github.com/Marsman-b/Marsman-b.github.io/issues/1" target="_blank" class="btn btn-invisible circle" title="Issue">
-        <svg class="octicon" width="16" height="16">
-            <path id="pathIssue" fill-rule="evenodd"></path>
-        </svg>
+        <svg class="octicon" width="16" height="16"><path id="pathIssue"></path></svg>
     </a>
     
 
-    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
-        <svg class="octicon" width="16" height="16" >
-            <path id="themeSwitch" fill-rule="evenodd"></path>
-        </svg>
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"
+       >
+        <svg class="octicon" width="16" height="16"><path id="themeSwitch"></path></svg>
     </a>
-
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>Hello Word!</p></div>
-<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="toc-toggle" onclick="document.querySelector('.toc-sidebar').classList.toggle('visible')">
+☰ 目录
+</button>
 
-<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
-<div class="comments" id="comments"></div>
+<div class="post-container">
 
+    <aside class="toc-sidebar">
+        <div class="toc-header">目录</div>
+        <ul class="toc-list" id="toc"></ul>
+    </aside>
+
+    <div class="post-main">
+        <div class="markdown-body" id="postBody">
+            <p>Hello Word!</p>
+        </div>
+
+        <div style="font-size:small;margin-top:8px;float:right;">
+            
+        </div>
+
+        
+        <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">
+            评论
+        </button>
+        <div class="comments" id="comments"></div>
+        
+    </div>
+</div>
 </div>
     <div id="footer"><div id="footer1"><span id="copyrightYear"></span> <a href="https://Marsman-b.github.io">Zhongweizi 的博客</a></div>
 <div id="footer2">
@@ -131,50 +258,50 @@ console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 
 
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+
 document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
 
-
-
-function openComments(){
-    cm=document.getElementById("comments");
-    cmButton=document.getElementById("cmButton");
-    cmButton.disabled=true;
-    cmButton.innerHTML="loading";
-    span=document.createElement("span");
-    span.setAttribute("class","AnimatedEllipsis");
-    cmButton.appendChild(span);
-
-    script=document.createElement("script");
-    script.setAttribute("src","https://utteranc.es/client.js");
-    script.setAttribute("repo","Marsman-b/Marsman-b.github.io");
-    script.setAttribute("issue-term","title");
-    
-    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
-    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
-    else{script.setAttribute("theme","preferred-color-scheme");}
-    
-    script.setAttribute("crossorigin","anonymous");
-    script.setAttribute("async","");
-    cm.appendChild(script);
-
-    int=self.setInterval("iFrameLoading()",200);
-}
-
-function iFrameLoading(){
-    var utterances=document.getElementsByClassName('utterances');
-    if(utterances.length==1){
-        if(utterances[0].style.height!=""){
-            utterancesLoad=1;
-            int=window.clearInterval(int);
-            document.getElementById("cmButton").style.display="none";
-            console.log("utterances Load OK");
-        }
-    }
-}
-
-
-
 </script>
+
+<script>
+/* ===== 自动生成目录 ===== */
+document.addEventListener("DOMContentLoaded", () => {
+    const content = document.getElementById("postBody");
+    const toc = document.getElementById("toc");
+    if (!content || !toc) return;
+
+    const headings = content.querySelectorAll("h1,h2,h3,h4,h5,h6");
+    if (!headings.length) return;
+
+    headings.forEach((h, i) => {
+        if (!h.id) h.id = "heading-" + i;
+
+        const li = document.createElement("li");
+        li.className = "toc-item";
+
+        const a = document.createElement("a");
+        a.className = "toc-link toc-" + h.tagName.toLowerCase();
+        a.textContent = h.textContent;
+        a.href = "#" + h.id;
+
+        li.appendChild(a);
+        toc.appendChild(li);
+    });
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                document.querySelectorAll(".toc-link").forEach(a => a.classList.remove("active"));
+                const active = document.querySelector('.toc-link[href="#' + entry.target.id + '"]');
+                if (active) active.classList.add("active");
+            }
+        });
+    }, { rootMargin: "-30% 0px -60% 0px" });
+
+    headings.forEach(h => observer.observe(h));
+});
+</script>
+
 /* 目录生成和交互功能 */ (function() { function generateTOC() { const postBody = document.getElementById('postBody'); if (!postBody) return; const headings = postBody.querySelectorAll('h1, h2, h3, h4, h5, h6'); if (headings.length === 0) return; const container = document.getElementById('content'); const postContainer = document.createElement('div'); postContainer.className = 'post-container'; const sidebar = document.createElement('div'); sidebar.className = 'toc-sidebar'; sidebar.id = 'toc-sidebar'; const sidebarHeader = document.createElement('div'); sidebarHeader.className = 'toc-header'; sidebarHeader.textContent = '文章目录'; const tocList = document.createElement('ul'); tocList.className = 'toc-list'; headings.forEach((heading, index) => { const id = 'heading-' + index; heading.id = id; const li = document.createElement('li'); li.className = 'toc-item'; const link = document.createElement('a'); link.href = '#' + id; link.textContent = heading.textContent; link.className = 'toc-link toc-' + heading.tagName.toLowerCase(); li.appendChild(link); tocList.appendChild(li); }); sidebar.appendChild(sidebarHeader); sidebar.appendChild(tocList); const mainContent = document.createElement('div'); mainContent.className = 'post-main'; const contentClone = container.cloneNode(true); mainContent.appendChild(contentClone); container.innerHTML = ''; postContainer.appendChild(sidebar); postContainer.appendChild(mainContent); container.appendChild(postContainer); const toggle = document.createElement('div'); toggle.className = 'toc-toggle'; toggle.innerHTML = '📑'; toggle.title = '显示/隐藏目录'; document.body.appendChild(toggle); toggle.addEventListener('click', function() { sidebar.classList.toggle('visible'); }); const tocLinks = tocList.querySelectorAll('.toc-link'); tocLinks.forEach(link => { link.addEventListener('click', function(e) { e.preventDefault(); const targetId = this.getAttribute('href').substring(1); const targetElement = document.getElementById(targetId); if (targetElement) { targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' }); tocLinks.forEach(l => l.classList.remove('active')); this.classList.add('active'); } }); }); let isScrolling = false; window.addEventListener('scroll', function() { if (isScrolling) return; let current = ''; headings.forEach(heading => { const rect = heading.getBoundingClientRect(); if (rect.top <= 100) { current = heading.id; } }); tocLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href') === '#' + current) { link.classList.add('active'); } }); }); tocLinks.forEach(link => { link.addEventListener('click', function() { isScrolling = true; setTimeout(() => { isScrolling = false; }, 1000); }); }); } if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', generateTOC); } else { generateTOC(); } })();
 
 </html>
