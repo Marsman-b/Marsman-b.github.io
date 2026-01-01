@@ -429,6 +429,67 @@ console.log(
 "\n %c Gmeek last https://github.com/Meekdai/Gmeek \n",
 "padding:5px 0;background:#02d81d;color:#fff"
 );
+
+(async function () {
+    const listEl = document.getElementById("postList");
+    if (!listEl) return;
+
+    // 常见 Gmeek 索引路径，逐个尝试
+    const candidates = [
+        "/post.json",
+        "/posts.json",
+        "/index.json",
+        "/feed.json"
+    ];
+
+    let posts = null;
+
+    for (const url of candidates) {
+        try {
+            const res = await fetch(url);
+            if (!res.ok) continue;
+            const data = await res.json();
+
+            // Gmeek 常见格式兼容
+            if (Array.isArray(data)) {
+                posts = data;
+            } else if (data.posts) {
+                posts = data.posts;
+            } else if (data.items) {
+                posts = data.items;
+            }
+
+            if (posts && posts.length) break;
+        } catch (e) {}
+    }
+
+    if (!posts || !posts.length) {
+        console.warn("未找到文章列表 JSON");
+        return;
+    }
+
+    const current = location.pathname.replace(/\/$/, "");
+
+    posts.forEach(post => {
+        const url = post.url || post.link || post.path;
+        const title = post.title || post.name || "Untitled";
+
+        if (!url) return;
+
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+
+        a.href = url;
+        a.textContent = title;
+
+        if (current === url.replace(/\/$/, "")) {
+            a.classList.add("active");
+        }
+
+        li.appendChild(a);
+        listEl.appendChild(li);
+    });
+})();
 </script>
 
 
