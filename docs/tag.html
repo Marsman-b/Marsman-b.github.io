@@ -489,68 +489,69 @@ function toggleToc() {
     const archiveEl = document.getElementById("archiveList");
     if (!archiveEl) return;
 
-    const candidates = ["/post.json", "/posts.json", "/index.json", "/feed.json"];
-    let posts = null;
+    try {
+        const res = await fetch("/postList.json");
+        if (!res.ok) {
+            archiveEl.innerHTML = '<p style="color:var(--color-fg-muted);font-size:12px;">暂无文章</p>';
+            return;
+        }
 
-    for (const url of candidates) {
-        try {
-            const res = await fetch(url);
-            if (!res.ok) continue;
-            const data = await res.json();
+        const data = await res.json();
 
-            if (Array.isArray(data)) {
-                posts = data;
-            } else if (data.posts) {
-                posts = data.posts;
-            } else if (data.items) {
-                posts = data.items;
-            }
+        // Gmeek postList.json 格式: {id: {postTitle, postUrl, ...}, ...}
+        // 移除 labelColorDict 并转换为数组
+        const posts = Object.entries(data)
+            .filter(([key]) => key !== 'labelColorDict')
+            .map(([id, post]) => ({
+                id,
+                title: post.postTitle || "Untitled",
+                url: post.postUrl || "",
+                // 从 URL 中提取日期，或使用当前日期
+                dateStr: post.postUrl || ""
+            }));
 
-            if (posts && posts.length) break;
-        } catch (e) {}
-    }
+        if (posts.length === 0) {
+            archiveEl.innerHTML = '<p style="color:var(--color-fg-muted);font-size:12px;">暂无文章</p>';
+            return;
+        }
 
-    if (!posts || !posts.length) {
-        archiveEl.innerHTML = '<p style="color:var(--color-fg-muted);font-size:12px;">暂无文章</p>';
-        return;
-    }
+        // 按年份分组（由于没有日期字段，使用简单的列表）
+        const grouped = {};
+        const currentYear = new Date().getFullYear();
 
-    // 按日期排序并分组
-    posts.sort((a, b) => new Date(b.date || b.created || 0) - new Date(a.date || a.created || 0));
+        posts.forEach(post => {
+            // 默认使用当前年份，因为 postList.json 中没有日期字段
+            const year = currentYear;
 
-    const grouped = {};
-    posts.forEach(post => {
-        const date = new Date(post.date || post.created);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-
-        if (!grouped[year]) grouped[year] = [];
-        grouped[year].push({
-            title: post.title || post.name || "Untitled",
-            url: post.url || post.link || post.path,
-            date: `${month}/${day}`
+            if (!grouped[year]) grouped[year] = [];
+            grouped[year].push({
+                title: post.title,
+                url: post.url
+            });
         });
-    });
 
-    let html = '';
-    Object.keys(grouped).sort((a, b) => b - a).forEach(year => {
-        html += `<div class="archive-year">${year}</div>`;
-        html += '<ul class="year-list">';
-        grouped[year].forEach(post => {
-            const current = location.pathname.replace(/\/$/, '');
-            const active = current === post.url.replace(/\/$/, '') ? ' style="font-weight:600;color:var(--archer-primary)"' : '';
-            html += `
-                <li class="archive-post-item">
-                    <span class="archive-post-date">${post.date}</span>
-                    <a class="archive-post-title" href="${post.url}"${active}>${post.title}</a>
-                </li>
-            `;
+        let html = '';
+        Object.keys(grouped).sort((a, b) => b - a).forEach(year => {
+            html += `<div class="archive-year">${year}</div>`;
+            html += '<ul class="year-list">';
+            grouped[year].forEach(post => {
+                const currentPath = location.pathname.replace(/\/$/, '');
+                const postPath = '/' + post.url.replace(/^\//, '').replace(/\/$/, '');
+                const active = currentPath === postPath ? ' style="font-weight:600;color:var(--archer-primary)"' : '';
+                html += `
+                    <li class="archive-post-item">
+                        <a class="archive-post-title" href="/${post.url}"${active}>${post.title}</a>
+                    </li>
+                `;
+            });
+            html += '</ul>';
         });
-        html += '</ul>';
-    });
 
-    archiveEl.innerHTML = html;
+        archiveEl.innerHTML = html;
+    } catch (e) {
+        console.error('Failed to load archive:', e);
+        archiveEl.innerHTML = '<p style="color:var(--color-fg-muted);font-size:12px;">加载失败</p>';
+    }
 })();
 
 /* ===== 生成文章 TOC 目录 ===== */
