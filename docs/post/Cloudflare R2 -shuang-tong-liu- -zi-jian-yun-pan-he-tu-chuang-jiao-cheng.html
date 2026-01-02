@@ -651,7 +651,13 @@ if (themeSettings[theme]) {
 
 /* ===== 侧边栏切换 ===== */
 function toggleSidebar() {
-    document.getElementById('archerSidebar').classList.toggle('show');
+    const sidebar = document.getElementById('archerSidebar');
+    sidebar.classList.toggle('sidebar-hidden');
+
+    // 移动端显示时也要切换 show 类
+    if (window.innerWidth <= 900) {
+        sidebar.classList.toggle('show');
+    }
 }
 
 function toggleToc() {
