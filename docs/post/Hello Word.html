@@ -35,340 +35,356 @@
 </head>
 
 <style>
-/* ===== 原始样式 ===== */
-body{
-    box-sizing:border-box;
-    min-width:200px;
-    max-width:1400px;
-    margin:20px auto;
-    padding:45px;
-    font-size:16px;
-    font-family:sans-serif;
-    line-height:1.25;
+/* ===== Archer 风格的三栏布局 ===== */
+:root {
+    --sidebar-width: 260px;
+    --toc-width: 220px;
+    --content-max-width: 900px;
+    --archer-primary: #0969da;
+    --archer-bg-sidebar: var(--color-canvas-subtle);
+    --archer-border: var(--borderColor-muted, var(--color-border-muted));
 }
 
-#header{
-    display:flex;
-    padding-bottom:8px;
-    border-bottom:1px solid var(--borderColor-muted, var(--color-border-muted));
-    margin-bottom:16px;
+body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: sans-serif;
+    line-height: 1.6;
 }
 
-#footer{
-    margin-top:64px;
-    text-align:center;
-    font-size:small;
+/* 顶部 Header */
+#header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--color-canvas-default);
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--archer-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* ========================= */
-/* 页面总体布局（新增） */
-/* ========================= */
-.layout-root{
-    display:flex;
-    gap:24px;
+/* 三栏容器 */
+.archer-layout {
+    display: flex;
+    max-width: 1600px;
+    margin: 0 auto;
+    gap: 20px;
+    padding: 20px;
 }
 
-/* 左侧文章列表 */
-.post-list-sidebar{
-    width:260px;
-    flex-shrink:0;
-    position:sticky;
-    top:20px;
-    height:fit-content;
-    background:var(--color-canvas-subtle);
-    border:1px solid var(--borderColor-muted, var(--color-border-muted));
-    border-radius:10px;
-    padding:16px;
+/* ========== 左侧边栏（文章归档） ========== */
+.archer-sidebar-left {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+    background: var(--archer-bg-sidebar);
+    border: 1px solid var(--archer-border);
+    border-radius: 8px;
+    padding: 16px;
 }
 
-.post-list-title{
-    font-weight:600;
-    margin-bottom:12px;
-    padding-bottom:6px;
-    border-bottom:1px solid var(--borderColor-muted, var(--color-border-muted));
+.sidebar-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-fg-muted);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--archer-border);
+    text-transform: uppercase;
 }
 
-/* 文章列表 */
-.post-list{
-    list-style:none;
-    padding:0;
-    margin:0;
+.archive-year {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--archer-primary);
+    margin: 16px 0 8px 0;
 }
 
-.post-list li{
-    margin:6px 0;
+.year-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px 0;
 }
 
-.post-list a{
-    display:block;
-    padding:4px 6px;
-    font-size:14px;
-    text-decoration:none;
-    color:var(--color-fg-muted);
-    border-radius:6px;
-    line-height:1.4;
+.archive-post-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 4px 0;
+    font-size: 14px;
 }
 
-.post-list a:hover{
-    background:var(--color-neutral-muted);
-    color:var(--color-fg-default);
+.archive-post-date {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--color-fg-muted);
+    font-family: monospace;
 }
 
-.post-list a.active{
-    background:var(--color-accent-subtle);
-    color:var(--color-accent-emphasis);
-    font-weight:500;
+.archive-post-title {
+    flex: 1;
+    color: var(--color-fg-default);
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-/* 主内容 */
-.main-area{
-    flex:1;
-    min-width:0;
+.archive-post-title:hover {
+    color: var(--archer-primary);
+    text-decoration: underline;
 }
 
-/* 移动端抽屉 */
-.sidebar-toggle{
-    display:none;
-    position:fixed;
-    left:16px;
-    top:90px;
-    z-index:1000;
-    background:var(--color-btn-bg);
-    border:1px solid var(--borderColor-muted, var(--color-border-muted));
-    border-radius:6px;
-    padding:8px 10px;
-    cursor:pointer;
+/* ========== 主内容区 ========== */
+.archer-main-content {
+    flex: 1;
+    min-width: 0;
+    max-width: var(--content-max-width);
 }
 
-@media (max-width: 1000px){
-    body{
-        padding:20px 16px;
+#content {
+    background: var(--color-canvas-default);
+    padding: 24px;
+    border-radius: 8px;
+}
+
+/* ========== 右侧 TOC 目录 ========== */
+.archer-toc-right {
+    width: var(--toc-width);
+    flex-shrink: 0;
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+.toc-catalog {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-fg-muted);
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: var(--archer-bg-sidebar);
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.toc {
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.toc ol {
+    list-style: none;
+    padding-left: 16px;
+    margin: 4px 0;
+}
+
+.toc > ol {
+    padding-left: 0;
+}
+
+.toc li {
+    margin: 2px 0;
+}
+
+.toc a {
+    color: var(--color-fg-muted);
+    text-decoration: none;
+    display: block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.toc a:hover {
+    color: var(--archer-primary);
+    background: var(--archer-bg-sidebar);
+}
+
+.toc a.active {
+    color: var(--archer-primary);
+    font-weight: 500;
+    background: var(--color-accent-subtle);
+}
+
+/* ========== 滚动条样式 ========== */
+.archer-sidebar-left::-webkit-scrollbar,
+.archer-toc-right::-webkit-scrollbar {
+    width: 6px;
+}
+
+.archer-sidebar-left::-webkit-scrollbar-thumb,
+.archer-toc-right::-webkit-scrollbar-thumb {
+    background: var(--archer-border);
+    border-radius: 3px;
+}
+
+.archer-sidebar-left::-webkit-scrollbar-thumb:hover,
+.archer-toc-right::-webkit-scrollbar-thumb:hover {
+    background: var(--color-fg-muted);
+}
+
+/* ========== 移动端适配 ========== */
+.sidebar-toggle,
+.toc-toggle {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    background: var(--color-btn-bg);
+    border: 1px solid var(--archer-border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.sidebar-toggle {
+    left: 16px;
+    top: 80px;
+}
+
+.toc-toggle {
+    right: 16px;
+    top: 80px;
+}
+
+@media (max-width: 1200px) {
+    .archer-toc-right {
+        display: none;
     }
 
-    .layout-root{
-        display:block;
+    .toc-toggle {
+        display: block;
     }
 
-    .post-list-sidebar{
-        position:fixed;
-        left:0;
-        top:0;
-        height:100vh;
-        width:280px;
-        transform:translateX(-100%);
-        transition:.3s;
-        z-index:999;
-        overflow-y:auto;
+    .archer-toc-right.show {
+        display: block;
+        position: fixed;
+        right: 0;
+        top: 0;
+        height: 100vh;
+        width: 280px;
+        background: var(--color-canvas-default);
+        border-left: 1px solid var(--archer-border);
+        padding: 20px;
+        box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+        animation: slideInRight 0.3s;
+    }
+}
+
+@media (max-width: 900px) {
+    .archer-layout {
+        padding: 10px;
     }
 
-    .post-list-sidebar.show{
-        transform:translateX(0);
+    .archer-sidebar-left {
+        display: none;
     }
 
-    .sidebar-toggle{
-        display:block;
+    .sidebar-toggle {
+        display: block;
     }
+
+    .archer-sidebar-left.show {
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 280px;
+        background: var(--color-canvas-default);
+        border-right: 1px solid var(--archer-border);
+        box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+        animation: slideInLeft 0.3s;
+        z-index: 150;
+    }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+/* Footer */
+#footer {
+    margin-top: 64px;
+    text-align: center;
+    font-size: small;
+    padding: 20px;
+    color: var(--color-fg-muted);
 }
 </style>
-
-
-<style>
-/* ===== 原有样式 ===== */
-.postTitle{margin:auto 0;font-size:40px;font-weight:bold;}
-.title-right{display:flex;margin:auto 0 0 auto;}
-.title-right .circle{padding:14px 16px;margin-right:8px;}
-#postBody{border-bottom:1px solid var(--color-border-default);padding-bottom:36px;}
-#postBody hr{height:2px;}
-#cmButton{height:48px;margin-top:48px;}
-#comments{margin-top:64px;}
-.g-emoji{font-size:24px;}
-
-@media (max-width:600px){
-    body{padding:8px;}
-    .postTitle{font-size:24px;}
-}
-
-
-
-/* ===================== */
-/* ===== 目录布局 ===== */
-/* ===================== */
-
-.post-container{
-    display:flex;
-    gap:20px;
-    max-width:1200px;
-    margin:0 auto;
-}
-
-.post-main{
-    flex:1;
-    min-width:0;
-}
-
-/* 左侧目录 */
-.toc-sidebar{
-    position:sticky;
-    top:20px;
-    width:250px;
-    height:fit-content;
-    background:var(--color-canvas-subtle);
-    border:1px solid var(--borderColor-muted, var(--color-border-muted));
-    border-radius:8px;
-    padding:16px;
-    transition:margin-left .3s ease;
-}
-
-.toc-header{
-    font-weight:bold;
-    margin-bottom:12px;
-    border-bottom:1px solid var(--borderColor-muted, var(--color-border-muted));
-    padding-bottom:8px;
-}
-
-.toc-list{
-    list-style:none;
-    padding:0;
-    margin:0;
-}
-
-.toc-item{margin:4px 0;}
-
-.toc-link{
-    display:block;
-    padding:4px 8px;
-    text-decoration:none;
-    color:var(--color-fg-muted);
-    font-size:14px;
-    border-radius:4px;
-    transition:.2s;
-}
-
-.toc-link:hover{
-    background:var(--color-neutral-muted);
-    color:var(--color-fg-default);
-}
-
-.toc-link.active{
-    background:var(--color-accent-subtle);
-    color:var(--color-accent-emphasis);
-    font-weight:500;
-}
-
-.toc-h1{font-weight:600;}
-.toc-h2{padding-left:16px;}
-.toc-h3{padding-left:32px;}
-.toc-h4{padding-left:48px;}
-.toc-h5{padding-left:64px;}
-.toc-h6{padding-left:80px;}
-
-/* 移动端抽屉 */
-.toc-toggle{
-    position:fixed;
-    top:100px;
-    left:20px;
-    z-index:1000;
-    background:var(--color-btn-bg);
-    border:1px solid var(--borderColor-muted, var(--color-border-muted));
-    border-radius:6px;
-    padding:8px 10px;
-    cursor:pointer;
-    display:none;
-}
-
-@media (max-width:1000px){
-    .post-container{display:block;}
-    .toc-sidebar{
-        position:fixed;
-        top:0;
-        left:0;
-        width:280px;
-        height:100vh;
-        margin-left:-280px;
-        z-index:999;
-        background:var(--color-canvas-default);
-        border-right:1px solid var(--borderColor-muted, var(--color-border-muted));
-        border-radius:0;
-        box-shadow:2px 0 8px rgba(0,0,0,.1);
-        overflow-y:auto;
-    }
-    .toc-sidebar.visible{margin-left:0;}
-    .toc-toggle{display:block;}
-}
-
-</style>
-
 
 
 
 <body>
 
-<button class="sidebar-toggle"
-        onclick="document.querySelector('.post-list-sidebar').classList.toggle('show')">
-☰ 文章
-</button>
+<!-- Header -->
+<div id="header">
+    <div>
+<a href="https://Marsman-b.github.io" style="text-decoration:none;color:var(--color-fg-default);font-weight:600;font-size:18px;">
+    Zhongweizi 的博客
+</a>
+</div>
+    
+    <button onclick="modeSwitch()" style="background:transparent;border:none;cursor:pointer;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path id="themeSwitch" d="M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z"/>
+        </svg>
+    </button>
+    
+</div>
 
-<div class="layout-root">
+<!-- 移动端切换按钮 -->
+<button class="sidebar-toggle" onclick="toggleSidebar()">☰ 归档</button>
+<button class="toc-toggle" onclick="toggleToc()">📑 目录</button>
 
-    <!-- 左侧：文章列表 -->
-    <aside class="post-list-sidebar">
-        <div class="post-list-title">全部文章</div>
+<!-- 三栏布局 -->
+<div class="archer-layout">
 
-        <ul class="post-list">
-        
-        </ul>
+    <!-- 左侧边栏：文章归档 -->
+    <aside class="archer-sidebar-left" id="archerSidebar">
+        <div class="sidebar-title">文章归档</div>
+        <div id="archiveList">
+            <!-- 这里由 JavaScript 动态生成 -->
+        </div>
     </aside>
 
-    <!-- 右侧正文 -->
-    <div class="main-area">
-        <div id="header">
-<h1 class="postTitle">Hello Word</h1>
-<div class="title-right">
-    <a href="https://Marsman-b.github.io" class="btn btn-invisible circle" title="首页">
-        <svg class="octicon" width="16" height="16"><path id="pathHome"></path></svg>
-    </a>
-
-    
-    <a href="https://github.com/Marsman-b/Marsman-b.github.io/issues/1" target="_blank" class="btn btn-invisible circle" title="Issue">
-        <svg class="octicon" width="16" height="16"><path id="pathIssue"></path></svg>
-    </a>
-    
-
-    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题"
-       >
-        <svg class="octicon" width="16" height="16"><path id="themeSwitch"></path></svg>
-    </a>
-</div>
-</div>
+    <!-- 主内容区 -->
+    <div class="archer-main-content">
         <div id="content">
-<button class="toc-toggle" onclick="document.querySelector('.toc-sidebar').classList.toggle('visible')">
-☰ 目录
-</button>
+<article>
+    <h1 class="postTitle" style="margin-top:0;border-bottom:2px solid var(--archer-primary);padding-bottom:12px;">
+        Hello Word
+    </h1>
 
-<div class="post-container">
-
-    <aside class="toc-sidebar">
-        <div class="toc-header">目录</div>
-        <ul class="toc-list" id="toc"></ul>
-    </aside>
-
-    <div class="post-main">
-        <div class="markdown-body" id="postBody">
-            <p>Hello Word!</p>
-        </div>
-
-        <div style="font-size:small;margin-top:8px;float:right;">
-            
-        </div>
-
-        
-        <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">
-            评论
-        </button>
-        <div class="comments" id="comments"></div>
-        
+    <div id="postBody" class="markdown-body">
+        <p>Hello Word!</p>
     </div>
+</article>
+
+
+<div id="cmButton">
+    <span class="commenttext" onclick="cmButton()"></span>
 </div>
+<div id="comments"></div>
+
 </div>
         <div id="footer"><div id="footer1"><span id="copyrightYear"></span> <a href="https://Marsman-b.github.io">Zhongweizi 的博客</a></div>
 <div id="footer2">
@@ -388,60 +404,69 @@ if(""!=""){
 </script></div>
     </div>
 
+    <!-- 右侧 TOC 目录 -->
+    <aside class="archer-toc-right" id="archerToc">
+        <div class="toc-catalog">📑 CATALOG</div>
+        <nav class="toc" id="tocContent">
+            <!-- 这里由 JavaScript 动态生成 -->
+        </nav>
+    </aside>
+
 </div>
 
 <script>
-var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
-var utterancesLoad=0;
+var IconList = {'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad = 0;
 
+/* ===== 主题切换 ===== */
 
-let themeSettings={
-    "dark":["dark","moon","#00f0ff","dark-blue"],
-    "light":["light","sun","#ff5000","github-light"],
-    "auto":["auto","sync","","preferred-color-scheme"]
+let themeSettings = {
+    "dark": ["dark", "moon", "#00f0ff", "dark-blue"],
+    "light": ["light", "sun", "#ff5000", "github-light"],
+    "auto": ["auto", "sync", "", "preferred-color-scheme"]
 };
 
-function changeTheme(mode, icon, color, utheme){
-    document.documentElement.setAttribute("data-color-mode",mode);
-    document.getElementById("themeSwitch").setAttribute("d",IconList[icon]);
-    document.getElementById("themeSwitch").parentNode.style.color=color;
-    if(utterancesLoad==1){utterancesTheme(utheme);}
+function changeTheme(mode, icon, color, utheme) {
+    document.documentElement.setAttribute("data-color-mode", mode);
+    document.getElementById("themeSwitch").setAttribute("d", IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color = color;
+    if (utterancesLoad == 1) { utterancesTheme(utheme); }
 }
 
-function modeSwitch(){
-    let current=document.documentElement.getAttribute("data-color-mode");
-    let next=current==="light"?"dark":current==="dark"?"auto":"light";
-    localStorage.setItem("meek_theme",next);
-    if(themeSettings[next]) changeTheme(...themeSettings[next]);
+function modeSwitch() {
+    let current = document.documentElement.getAttribute("data-color-mode");
+    let next = current === "light" ? "dark" : current === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", next);
+    if (themeSettings[next]) changeTheme(...themeSettings[next]);
 }
 
-function utterancesTheme(theme){
-    const iframe=document.getElementsByClassName('utterances-frame')[0];
-    iframe.contentWindow.postMessage({type:'set-theme',theme},'https://utteranc.es');
+function utterancesTheme(theme) {
+    const iframe = document.getElementsByClassName('utterances-frame')[0];
+    if (iframe) {
+        iframe.contentWindow.postMessage({ type: 'set-theme', theme }, 'https://utteranc.es');
+    }
 }
 
-if(themeSettings[theme]){
+if (themeSettings[theme]) {
     changeTheme(...themeSettings[theme]);
 }
 
 
-console.log(
-"\n %c Gmeek last https://github.com/Meekdai/Gmeek \n",
-"padding:5px 0;background:#02d81d;color:#fff"
-);
+/* ===== 侧边栏切换 ===== */
+function toggleSidebar() {
+    document.getElementById('archerSidebar').classList.toggle('show');
+}
 
-(async function () {
-    const listEl = document.getElementById("postList");
-    if (!listEl) return;
+function toggleToc() {
+    document.getElementById('archerToc').classList.toggle('show');
+}
 
-    // 常见 Gmeek 索引路径，逐个尝试
-    const candidates = [
-        "/post.json",
-        "/posts.json",
-        "/index.json",
-        "/feed.json"
-    ];
+/* ===== 生成文章归档列表 ===== */
+(async function generateArchive() {
+    const archiveEl = document.getElementById("archiveList");
+    if (!archiveEl) return;
 
+    const candidates = ["/post.json", "/posts.json", "/index.json", "/feed.json"];
     let posts = null;
 
     for (const url of candidates) {
@@ -450,7 +475,6 @@ console.log(
             if (!res.ok) continue;
             const data = await res.json();
 
-            // Gmeek 常见格式兼容
             if (Array.isArray(data)) {
                 posts = data;
             } else if (data.posts) {
@@ -464,81 +488,131 @@ console.log(
     }
 
     if (!posts || !posts.length) {
-        console.warn("未找到文章列表 JSON");
+        archiveEl.innerHTML = '<p style="color:var(--color-fg-muted);font-size:12px;">暂无文章</p>';
         return;
     }
 
-    const current = location.pathname.replace(/\/$/, "");
+    // 按日期排序并分组
+    posts.sort((a, b) => new Date(b.date || b.created || 0) - new Date(a.date || a.created || 0));
 
+    const grouped = {};
     posts.forEach(post => {
-        const url = post.url || post.link || post.path;
-        const title = post.title || post.name || "Untitled";
+        const date = new Date(post.date || post.created);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
 
-        if (!url) return;
+        if (!grouped[year]) grouped[year] = [];
+        grouped[year].push({
+            title: post.title || post.name || "Untitled",
+            url: post.url || post.link || post.path,
+            date: `${month}/${day}`
+        });
+    });
 
-        const li = document.createElement("li");
-        const a = document.createElement("a");
+    let html = '';
+    Object.keys(grouped).sort((a, b) => b - a).forEach(year => {
+        html += `<div class="archive-year">${year}</div>`;
+        html += '<ul class="year-list">';
+        grouped[year].forEach(post => {
+            const current = location.pathname.replace(/\/$/, '');
+            const active = current === post.url.replace(/\/$/, '') ? ' style="font-weight:600;color:var(--archer-primary)"' : '';
+            html += `
+                <li class="archive-post-item">
+                    <span class="archive-post-date">${post.date}</span>
+                    <a class="archive-post-title" href="${post.url}"${active}>${post.title}</a>
+                </li>
+            `;
+        });
+        html += '</ul>';
+    });
 
-        a.href = url;
-        a.textContent = title;
+    archiveEl.innerHTML = html;
+})();
 
-        if (current === url.replace(/\/$/, "")) {
-            a.classList.add("active");
+/* ===== 生成文章 TOC 目录 ===== */
+(function generateTOC() {
+    const tocEl = document.getElementById("tocContent");
+    if (!tocEl) return;
+
+    const content = document.getElementById("content") || document.querySelector("article") || document.body;
+    const headings = content.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (headings.length === 0) {
+        tocEl.innerHTML = '<p style="color:var(--color-fg-muted);font-size:12px;">暂无目录</p>';
+        return;
+    }
+
+    let tocHTML = '<ol>';
+    let currentLevel = parseInt(headings[0].tagName.substring(1));
+
+    headings.forEach((heading, index) => {
+        const level = parseInt(heading.tagName.substring(1));
+        const text = heading.textContent;
+        const id = heading.id || `heading-${index}`;
+
+        if (!heading.id) heading.id = id;
+
+        if (level > currentLevel) {
+            tocHTML += '<ol>'.repeat(level - currentLevel);
+        } else if (level < currentLevel) {
+            tocHTML += '</ol>'.repeat(currentLevel - level);
         }
 
-        li.appendChild(a);
-        listEl.appendChild(li);
-    });
-})();
-</script>
-
-
-<script>
-document.getElementById("pathHome").setAttribute("d",IconList["home"]);
-
-document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
-
-</script>
-
-<script>
-/* ===== 自动生成目录 ===== */
-document.addEventListener("DOMContentLoaded", () => {
-    const content = document.getElementById("postBody");
-    const toc = document.getElementById("toc");
-    if (!content || !toc) return;
-
-    const headings = content.querySelectorAll("h1,h2,h3,h4,h5,h6");
-    if (!headings.length) return;
-
-    headings.forEach((h, i) => {
-        if (!h.id) h.id = "heading-" + i;
-
-        const li = document.createElement("li");
-        li.className = "toc-item";
-
-        const a = document.createElement("a");
-        a.className = "toc-link toc-" + h.tagName.toLowerCase();
-        a.textContent = h.textContent;
-        a.href = "#" + h.id;
-
-        li.appendChild(a);
-        toc.appendChild(li);
+        tocHTML += `<li><a href="#${id}" onclick="smoothScroll('${id}', event)">${text}</a></li>`;
+        currentLevel = level;
     });
 
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                document.querySelectorAll(".toc-link").forEach(a => a.classList.remove("active"));
-                const active = document.querySelector('.toc-link[href="#' + entry.target.id + '"]');
-                if (active) active.classList.add("active");
+    tocHTML += '</ol>';
+    tocEl.innerHTML = tocHTML;
+
+    // TOC 高亮当前章节
+    window.addEventListener('scroll', () => {
+        let current = '';
+        headings.forEach(heading => {
+            const rect = heading.getBoundingClientRect();
+            if (rect.top <= 100) current = heading.id;
+        });
+
+        tocEl.querySelectorAll('a').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
             }
         });
-    }, { rootMargin: "-30% 0px -60% 0px" });
+    });
+})();
 
-    headings.forEach(h => observer.observe(h));
-});
+function smoothScroll(id, event) {
+    if (event) event.preventDefault();
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+console.log(
+    "\n %c Gmeek last + Archer Style \n",
+    "padding:5px 0;background:#02d81d;color:#fff"
+);
 </script>
 
+
+
+<script>
+function cmButton(){
+    var cmButton=document.getElementById("cmButton");
+    var comments=document.createElement("div");
+    comments.setAttribute("id","comments");
+    var script = document.createElement('script');
+    script.src='https://utteranc.es/client.js';
+    script.setAttribute('repo','');
+    script.setAttribute('issue-term','Hello Word');
+    script.setAttribute('theme','');
+    script.setAttribute('crossorigin','anonymous');
+    script.async=true;
+    comments.appendChild(script);
+    cmButton.parentNode.replaceChild(comments,cmButton);
+    utterancesLoad=1;
+}
+</script>
 
 
 </html>
