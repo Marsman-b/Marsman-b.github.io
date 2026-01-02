@@ -76,7 +76,7 @@ body {
     padding: 20px;
 }
 
-/* ========== 左侧边栏（文章归档） ========== */
+/* ========== 左侧边栏（文章目录） ========== */
 .archer-sidebar-left {
     width: var(--sidebar-width);
     flex-shrink: 0;
@@ -87,24 +87,70 @@ body {
     background: var(--archer-bg-sidebar);
     border: 1px solid var(--archer-border);
     border-radius: 8px;
-    padding: 16px;
+    padding: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.archer-sidebar-left.sidebar-hidden {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 16px 12px;
+    border-bottom: 2px solid var(--archer-border);
+    position: sticky;
+    top: 0;
+    background: var(--archer-bg-sidebar);
+    z-index: 10;
 }
 
 .sidebar-title {
-    font-size: 14px;
+    font-family: 'Oswald-Regular', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial,
+        'PingFang SC', 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', sans-serif;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: var(--color-fg-muted);
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--archer-border);
+    color: var(--archer-primary);
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--color-fg-muted);
+    cursor: pointer;
+    padding: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.sidebar-close-btn:hover {
+    background: var(--color-canvas-subtle);
+    color: var(--archer-primary);
+}
+
+#archiveList {
+    padding: 16px;
 }
 
 .archive-year {
-    font-size: 18px;
-    font-weight: 700;
+    font-family: 'Oswald-Regular', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
     color: var(--archer-primary);
-    margin: 16px 0 8px 0;
+    margin: 0.3rem 0;
 }
 
 .year-list {
@@ -114,32 +160,43 @@ body {
 }
 
 .archive-post-item {
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial,
+        'PingFang SC', 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', sans-serif;
     display: flex;
     align-items: baseline;
-    gap: 8px;
-    padding: 4px 0;
-    font-size: 14px;
+    border-left: 1px solid var(--color-border-muted);
+    margin-left: 0.3rem;
+    padding: 0.2rem 0 0.3rem 0.5rem;
+    transition: border-color 0.2s;
+}
+
+.archive-post-item:hover {
+    border-left-color: var(--archer-primary);
+}
+
+.archive-post-item:hover .archive-post-title {
+    color: var(--archer-primary);
 }
 
 .archive-post-date {
-    flex-shrink: 0;
-    font-size: 12px;
+    font-family: 'Oswald-Regular', monospace;
+    font-size: 0.9rem;
+    line-height: 1rem;
     color: var(--color-fg-muted);
-    font-family: monospace;
+    flex-shrink: 0;
 }
 
 .archive-post-title {
-    flex: 1;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    margin-left: 0.8rem;
     color: var(--color-fg-default);
     text-decoration: none;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.archive-post-title:hover {
-    color: var(--archer-primary);
-    text-decoration: underline;
+    flex: 1;
+    transition: color 0.2s;
 }
 
 /* ========== 主内容区 ========== */
@@ -400,9 +457,12 @@ body {
 <!-- 三栏布局 -->
 <div class="archer-layout">
 
-    <!-- 左侧边栏：文章归档 -->
+    <!-- 左侧边栏：文章目录 -->
     <aside class="archer-sidebar-left" id="archerSidebar">
-        <div class="sidebar-title">文章归档</div>
+        <div class="sidebar-header">
+            <div class="sidebar-title">文章目录</div>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()" title="隐藏侧边栏">×</button>
+        </div>
         <div id="archiveList">
             <!-- 这里由 JavaScript 动态生成 -->
         </div>
