@@ -35,7 +35,7 @@
 <style>
 /* ===== Archer 风格的三栏布局 ===== */
 :root {
-    --sidebar-width: 260px;
+    --sidebar-width: 20%;
     --toc-width: 220px;
     --content-max-width: 900px;
     --archer-primary: #0969da;
@@ -71,24 +71,26 @@ body {
 .archer-layout {
     display: flex;
     max-width: 1600px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     gap: 20px;
-    padding: 20px;
+    /* padding: 20px 20px 20px 0; */
 }
 
 /* ========== 左侧边栏（文章目录） ========== */
 .archer-sidebar-left {
     width: var(--sidebar-width);
     flex-shrink: 0;
-    position: sticky;
-    top: 80px;
-    height: calc(100vh - 100px);
+    position: fixed;
+    left: 0;
+    top: 60px;
+    height: calc(100vh - 60px);
     overflow-y: auto;
     background: var(--archer-bg-sidebar);
-    border: 1px solid var(--archer-border);
-    border-radius: 8px;
+    border-right: 1px solid var(--archer-border);
+    border-radius: 0;
     padding: 0;
     transition: all 0.3s ease-in-out;
+    z-index: 100;
 }
 
 .archer-sidebar-left.sidebar-hidden {
@@ -164,16 +166,17 @@ body {
         'PingFang SC', 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', sans-serif;
     display: flex;
     align-items: baseline;
-    border-left: 1px solid var(--color-border-muted);
+    border-left: 1px solid #bbb;
     margin-left: 0.3rem;
     padding: 0.2rem 0 0.3rem 0.5rem;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
 }
 
 .archive-post-item:hover {
     border-left-color: var(--archer-primary);
 }
 
+.archive-post-item:hover .archive-post-date,
 .archive-post-item:hover .archive-post-title {
     color: var(--archer-primary);
 }
@@ -204,6 +207,7 @@ body {
     flex: 1;
     min-width: 0;
     max-width: var(--content-max-width);
+    margin-left: calc(var(--sidebar-width) + 20px);
 }
 
 #content {
@@ -429,11 +433,11 @@ body {
     </a>
     
     
-    <a href="https://Marsman-b.github.io/rss.xml" target="_blank" id="buttonRSS" class="btn btn-invisible circle" title="RSS">
+    <!-- <a href="https://Marsman-b.github.io/rss.xml" target="_blank" id="buttonRSS" class="btn btn-invisible circle" title="RSS">
         <svg class="octicon" width="16" height="16" >
             <path id="pathRSS" fill-rule="evenodd"></path>
         </svg>
-    </a>
+    </a> -->
     <a class="btn btn-invisible circle" onclick="modeSwitch()" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
