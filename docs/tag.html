@@ -77,7 +77,7 @@ body {
     flex-shrink: 0;
     position: fixed;
     left: 0;
-    top: 60px;
+    top: 0px;
     height: calc(100vh - 60px);
     overflow-y: auto;
     background: var(--archer-bg-sidebar);
@@ -458,8 +458,8 @@ body {
     <!-- 左侧边栏：文章目录 -->
     <aside class="archer-sidebar-left" id="archerSidebar">
         <div class="sidebar-header">
-            <div class="sidebar-title">文章目录</div>
-            <button class="sidebar-close-btn" onclick="toggleSidebar()" title="隐藏侧边栏">×</button>
+            <div class="sidebar-title" style="text-align: center">文章目录</div>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()" title="隐藏侧边栏"> ＜ </button>
         </div>
         <div id="archiveList">
             <!-- 这里由 JavaScript 动态生成 -->
